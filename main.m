@@ -2,20 +2,20 @@ clc, clear
 %%================Simulation of BCT-NSP Algorithm=========================
 
 %% data-in & initialize
-data=load ('C:\Users\fengzhidan\Desktop\code\Êý¾Ý¼¯\911.txt');     % input format of each line: id1 id2
+data=load ('...\datasets\911.txt');     % input format of each line: id1 id2
 
 GRAPH=graph(data(:,1),data(:,2));                                          % object: graph
 GRAPH=simplify(GRAPH);                                                     % reduce to simple graph 
 N=size(GRAPH.Nodes,1);M=size(GRAPH.Edges,1);                               % N: number of nodes; M: number of edges
 GRAPH.Nodes.Index((1:N),1)=1:N;                                            % Node Index of the original network
-GRAPH.Nodes.Cost=degree(GRAPH);                                            % degrees as removal cost of nodes
-C=max(1,floor(0.01*N));                                                    % threshold constant: default value can be 0.01*N or 1
+GRAPH.Nodes.Cost=degree(GRAPH);                                            % default removal costs: degrees
+C=max(2,floor(0.01*N));                                                    % threshold constant: default value can be 0.01*N or 1
 
 %% dismantling process
 global iter                                                                % global variable: iteration times
 iter=1;
 [bin,binsize]=conncomp(GRAPH,'OutputForm','cell');
-gcc=max(binsize);
+gcc=max(binsize);RemovalCost=0;
 while gcc>C
     nodeIndex=[];
     for i=1:length(bin)                                                    % dismanling all connected components whose size exceeds C 
@@ -28,8 +28,7 @@ while gcc>C
                 nodeIndex0=b_k_spectral_clustering(SG,C);
             end
             nodeIndex=[nodeIndex;nodeIndex0];
-        end
-       
+        end     
     end
     RemovalNode{iter}=nodeIndex;
     iter=iter+1;
@@ -39,9 +38,9 @@ while gcc>C
     gcc=max(binsize); 
 end
 
-%%Output 
-filename=['C:\Users\fengzhidan\Desktop\BCT-NSP\RemovalResult.txt'];
-fp=fopen(filename1,'a');
+%% Output
+filename=['...\RemovalResult.txt'];
+fp=fopen(filename,'a');
 line1=char('Overall Removal Cost: ');
 fprintf(fp,'%s%g\n',line1,RemovalCost);
 line2=char('Removal Nodes: ');
@@ -55,3 +54,4 @@ for i=1:iter-1
         end
     end
 end
+fclose(fp);
