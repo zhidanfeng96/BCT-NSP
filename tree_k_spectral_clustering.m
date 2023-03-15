@@ -6,9 +6,6 @@ D=diag(sum(W,2)) ;
 L=D-W;
 WV=diag(G.Nodes.Weight);
 [V,~] = eigs(L,sparse(WV),k,'smallestabs');
-% [V,D] = eig(L,WV,'qz');
-% [~,in]=mink(diag(D),k);
-% V=V(:,in);
 sq_sum = sqrt(sum(V.*V, 2)) + 1e-20;
 U = V ./ repmat(sq_sum, 1, k);
 idx = kmeans(U, k);
@@ -23,4 +20,5 @@ for h=1:n
         dver(nei(denei),1)=1;
     end
 end
+
 nodeIndex=SG.Nodes.Index(G.Nodes.CutVertexIndex(dver==1));
