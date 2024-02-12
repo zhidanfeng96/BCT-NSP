@@ -1,6 +1,8 @@
 # BCT-NSP
 MATLAB code and datasets for our paper: "Generalized network dismantling via a novel spectral partition algorithm".
-'''
+
+```
+
 @article{feng2023generalized,
   title={Generalized network dismantling via a novel spectral partition algorithm},
   author={Feng, Zhidan and Cao, Zhulou and Qi, Xingqin},
@@ -10,4 +12,5 @@ MATLAB code and datasets for our paper: "Generalized network dismantling via a n
   year={2023},
   publisher={Elsevier}
 }
-'''
+
+```
